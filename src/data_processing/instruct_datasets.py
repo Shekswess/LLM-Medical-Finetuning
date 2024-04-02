@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from random import shuffle
 
 import pandas as pd
 
@@ -48,7 +47,7 @@ class InstructDataset(ABC):
         :param instruction: The instruction to add to the dataset
         :return: None
         """
-        self.dataset['instruction'] = instruction
+        self.dataset["instruction"] = instruction
 
     @abstractmethod
     def create_prompt(self) -> None:
@@ -70,12 +69,16 @@ class MistralLlamaInstructDataset(InstructDataset):
 
     def create_prompt(self):
         """
-        Create the prompt column in the dataset which will be used for 
+        Create the prompt column in the dataset which will be used for
         """
-        self.dataset['prompt'] = f"""<s> [INST] {self.dataset['instruction']} This is the question: {self.dataset['input']} [/INST] \\n {self.dataset['output']} </s>"""
+        self.dataset["prompt"] = (
+            f"""<s> [INST] {self.dataset['instruction']} This is the question: {self.dataset['input']} [/INST] \\n {self.dataset['output']} </s>"""
+        )
 
 
 class GemmaInstructDataset(InstructDataset):
 
     def create_prompt(self):
-        self.dataset['prompt'] = f"""<start_of_turn>user {self.dataset['instruction']} This is the question: {self.dataset['input']} <end_of_turn> \\n <start_of_turn>model {self.dataset['output']}"""
+        self.dataset["prompt"] = (
+            f"""<start_of_turn>user {self.dataset['instruction']} This is the question: {self.dataset['input']} <end_of_turn> \\n <start_of_turn>model {self.dataset['output']}"""
+        )

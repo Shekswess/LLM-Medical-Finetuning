@@ -95,6 +95,6 @@ class GemmaInstructDataset(InstructDataset):
         """
         prompts = []
         for index, row in self.dataset.iterrows():
-            prompt = f"<start_of_turn>user {row['instruction']} This is the question: {row['input']}<end_of_turn> \\n <start_of_turn>model {row['output']}"
+            prompt = f"<start_of_turn>user {row['instruction']} This is the question: {row['input']}<end_of_turn> \\n <start_of_turn>model {row['output']}<end_of_turn>model"
             prompts.append(prompt)
         self.dataset["prompt"] = prompts

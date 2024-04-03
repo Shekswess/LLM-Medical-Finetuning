@@ -9,8 +9,8 @@ REMOVE_COLUMNS = ["source", "focus_area"]
 RENAME_COLUMNS = {"question": "input", "answer": "output"}
 INSTRUCTION = "Answer the question truthfully."
 DATASETS_PATHS = [
-    r"D:\Work\LLM-7B-Medical-Finetuning\data\medical_meadow_wikidoc.csv",
-    r"D:\Work\LLM-7B-Medical-Finetuning\data\medquad.csv",
+    r"D:\Work\LLM-7B-Medical-Finetuning\data\raw_data\medical_meadow_wikidoc.csv",
+    r"D:\Work\LLM-7B-Medical-Finetuning\data\raw_data\medquad.csv",
 ]
 
 logger = logging.getLogger(__name__)
@@ -71,9 +71,7 @@ def create_dataset_hf(dataset: pd.DataFrame) -> DatasetDict:
 
 
 if __name__ == "__main__":
-    processed_data_path = (
-        r"D:\Work\LLM-7B-Medical-Finetuning\src\data_processing\processed_data"
-    )
+    processed_data_path = r"D:\Work\LLM-7B-Medical-Finetuning\data\processed_data"
     os.makedirs(processed_data_path, exist_ok=True)
 
     mistral_llama_datasets = [

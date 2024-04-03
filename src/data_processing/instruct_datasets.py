@@ -41,6 +41,15 @@ class InstructDataset(ABC):
         drop_columns = [col for col in columns if col in self.dataset.columns]
         self.dataset = self.dataset.drop(columns=drop_columns)
 
+    def drop_bad_rows(self, columns: list[str]) -> None:
+        """
+        Drop the rows which have bad values in the columns
+        :param columns: A list of columns to check for bad values
+        :return: None
+        """
+        self.dataset = self.dataset.dropna(subset=columns)
+        self.dataset = self.dataset.drop_duplicates(subset=columns)
+
     def create_instruction(self, instruction: str) -> None:
         """
         Create an instruction column in the dataset
@@ -71,14 +80,21 @@ class MistralLlamaInstructDataset(InstructDataset):
         """
         Create the prompt column in the dataset which will be used for
         """
-        self.dataset["prompt"] = (
-            f"""<s> [INST] {self.dataset['instruction']} This is the question: {self.dataset['input']} [/INST] \\n {self.dataset['output']} </s>"""
-        )
+        prompts = []
+        for index, row in self.dataset.iterrows():
+            prompt = f"""<s> [INST] {row['instruction']} This is the question: {row['input']} [/INST] \\n {row['output']} </s>"""
+            prompts.append(prompt)
+        self.dataset["prompt"] = prompts
 
 
 class GemmaInstructDataset(InstructDataset):
 
     def create_prompt(self):
-        self.dataset["prompt"] = (
-            f"""<start_of_turn>user {self.dataset['instruction']} This is the question: {self.dataset['input']} <end_of_turn> \\n <start_of_turn>model {self.dataset['output']}"""
-        )
+        """
+        Create the prompt column in the dataset which will be used for
+        """
+        prompts = []
+        for index, row in self.dataset.iterrows():
+            prompt = f"<start_of_turn>user {row['instruction']} This is the question: {row['input']} <end_of_turn> \\n <start_of_turn>model {row['output']}"
+            prompts.append(prompt)
+        self.dataset["prompt"] = prompts

@@ -17,56 +17,50 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 
-def process_dataset_mistral_llama(dataset_path: str) -> pd.DataFrame:
+def process_dataset(dataset_path: str, model: str) -> pd.DataFrame:
     """
-    Process the instruct dataset to be in the format required by the mistral or llama instruct model.
+    Process the instruct dataset to be in the format required by the model.
     :param dataset_path: The path to the dataset.
+    :param model: The model to process the dataset for.
     :return: The processed dataset.
     """
-    logger.info(
-        f"Processing dataset: {dataset_path} for mistral or llama instruct model."
-    )
-    mistral_llama_dataset = MistralLlamaInstructDataset(dataset_path)
-    mistral_llama_dataset.drop_columns(REMOVE_COLUMNS)
+    logger.info(f"Processing dataset: {dataset_path} for {model} instruct model.")
+    if model == "gemma":
+        dataset = GemmaInstructDataset(dataset_path)
+    elif model == "mistral" or model == "llama":
+        dataset = MistralLlamaInstructDataset(dataset_path)
+    else:
+        raise ValueError(f"Model {model} not supported!")
+    dataset.drop_columns(REMOVE_COLUMNS)
     logger.info("Columns removed!")
-    mistral_llama_dataset.rename_columns(RENAME_COLUMNS)
+    dataset.rename_columns(RENAME_COLUMNS)
     logger.info("Columns renamed!")
-    mistral_llama_dataset.create_instruction(INSTRUCTION)
+    dataset.create_instruction(INSTRUCTION)
     logger.info("Instructions created!")
-    mistral_llama_dataset.drop_bad_rows(["input", "output"])
+    dataset.drop_bad_rows(["input", "output"])
     logger.info("Bad rows dropped!")
-    mistral_llama_dataset.create_prompt()
+    dataset.create_prompt()
     logger.info("Prompt column created!")
-    return mistral_llama_dataset.get_dataset()
+    return dataset.get_dataset()
 
 
-def process_dataset_gemma(dataset_path: str) -> pd.DataFrame:
-    """
-    Process the instruct dataset to be in the format required by the gemma instruct model.
-    :param dataset_path: The path to the dataset.
-    :return: The processed dataset.
-    """
-    logger.info(f"Processing dataset: {dataset_path} for gemma instruct model.")
-    gemma_dataset = GemmaInstructDataset(dataset_path)
-    gemma_dataset.drop_columns(REMOVE_COLUMNS)
-    logger.info("Columns removed!")
-    gemma_dataset.rename_columns(RENAME_COLUMNS)
-    logger.info("Columns renamed!")
-    gemma_dataset.create_instruction(INSTRUCTION)
-    logger.info("Instructions created!")
-    gemma_dataset.drop_bad_rows(["input", "output"])
-    logger.info("Bad rows dropped!")
-    gemma_dataset.create_prompt()
-    logger.info("Prompt column created!")
-    return gemma_dataset.get_dataset()
-
-
-def create_dataset_hf(dataset: pd.DataFrame) -> DatasetDict:
+def create_dataset_hf(
+    dataset: pd.DataFrame, number_rows: int = None, shuffle: bool = False
+) -> DatasetDict:
     """
     Create a Hugging Face dataset from the pandas dataframe.
     :param dataset: The pandas dataframe.
+    :param number_rows: The number of rows to sample.
+    :param shuffle: Whether to shuffle the dataset.
     :return: The Hugging Face dataset.
     """
+    if shuffle:
+        logger.info("Shuffling dataset!")
+        dataset = dataset.sample(frac=1).reset_index(drop=True)
+    if number_rows:
+        logger.info(f"Sampling {number_rows} rows!")
+        dataset = dataset.iloc[:number_rows]
+    dataset.reset_index(drop=True, inplace=True)
     return DatasetDict({"train": Dataset.from_pandas(dataset)})
 
 
@@ -78,8 +72,8 @@ if __name__ == "__main__":
     gemma_datasets = []
     for dataset_path in DATASETS_PATHS:
         dataset_name = dataset_path.split(os.sep)[-1].split(".")[0]
-        mistral_llama_dataset = process_dataset_mistral_llama(dataset_path)
-        gemma_dataset = process_dataset_gemma(dataset_path)
+        mistral_llama_dataset = process_dataset(dataset_path, "mistral")
+        gemma_dataset = process_dataset(dataset_path, "gemma")
         mistral_llama_datasets.append(mistral_llama_dataset)
         gemma_datasets.append(gemma_dataset)
         mistral_llama_dataset = create_dataset_hf(mistral_llama_dataset)
@@ -104,3 +98,28 @@ if __name__ == "__main__":
 
     mistral_llama_dataset.push_to_hub("medical_mistral_llama_instruct_dataset")
     gemma_dataset.push_to_hub("medical_gemma_instruct_dataset")
+
+    # Smaller datasets for free colab training
+    mistral_llama_dataset_short = pd.concat(
+        mistral_llama_datasets, ignore_index=True
+    )
+    gemma_dataset_short = pd.concat(gemma_datasets, ignore_index=True)
+
+    mistral_llama_dataset_short = create_dataset_hf(
+        mistral_llama_dataset_short, 3000, True
+    )
+    gemma_dataset_short = create_dataset_hf(gemma_dataset_short, 3000, True)
+
+    mistral_llama_dataset_short.save_to_disk(
+        os.path.join(
+            processed_data_path, "medical_mistral_llama_instruct_dataset_short"
+        )
+    )
+    gemma_dataset_short.save_to_disk(
+        os.path.join(processed_data_path, "medical_gemma_instruct_dataset_short")
+    )
+
+    mistral_llama_dataset_short.push_to_hub(
+        "medical_mistral_llama_instruct_dataset_short"
+    )
+    gemma_dataset_short.push_to_hub("medical_gemma_instruct_dataset_short")

@@ -39,6 +39,12 @@ For the fine-tuning, the following models are used:
 
 Much more details about the fine-tuning process can be found in the notebooks in the `src/finetuning_notebooks` folder.
 
+Models trained using this codebase are available on Hugging Face:
+- Gemma: Shekswess/gemma-7b-it-bnb-4bit-medical(https://huggingface.co/Shekswess/gemma-7b-it-bnb-4bit-medical)
+- Llama: Shekswess/llama-2-7b-chat-bnb-4bit-medical(https://huggingface.co/Shekswess/llama-2-7b-chat-bnb-4bit-medical)
+- Mistral: Shekswess/mistral-7b-instruct-v02-bnb-4bit-medical(https://huggingface.co/Shekswess/mistral-7b-instruct-v02-bnb-4bit-medical)
+DISCLAIMER: The models are trained on a small dataset (only 3000 entries).
+
 ## Repository structure
 ```
 .

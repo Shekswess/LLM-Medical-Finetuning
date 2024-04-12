@@ -59,8 +59,10 @@ DISCLAIMER: The models are trained on a small dataset (only 3000 entries).
 │   ├── processed_datasets                                  # Processed datasets
 │   │   ├── medical_gemma_instruct_dataset                  # Processed dataset for the Gemma
 │   │   ├── medical_gemma_instruct_dataset_short            # Processed dataset for the Gemma with a smaller dataset size
-│   │   ├── medical_mistral_llama_instruct_dataset          # Processed dataset for the Mistral and Llama
-│   │   └── medical_mistral_llama_instruct_dataset_short    # Processed dataset for the Mistral and Llama with a smaller dataset size
+│   │   ├── medical_llama_instruct_dataset                  # Processed dataset for the Llama
+│   │   ├── medical_llama_instruct_dataset_short            # Processed dataset for the Llama with a smaller dataset size
+│   │   ├── medical_mistral_instruct_dataset                # Processed dataset for the Mistral
+│   │   └── medical_mistral_instruct_dataset_short          # Processed dataset for the Mistral with a smaller dataset size
 │   └── raw_data                                            # Raw datasets
 │       ├── medical_meadow_wikidoc.csv                      # Medical Meadow Wikidoc dataset
 │       └── medquad.csv                                     # Medquad dataset

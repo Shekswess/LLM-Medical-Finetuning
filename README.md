@@ -18,15 +18,19 @@ The Medical Meadow Wikidoc dataset comprises question-answer pairs sourced from 
 
 MedQuAD is a comprehensive collection consisting of 47,457 medical question-answer pairs compiled from 12 authoritative sources within the National Institutes of Health (NIH), including domains like cancer.gov, niddk.nih.gov, GARD, and MedlinePlus Health Topics. These question-answer pairs span 37 distinct question types, covering a wide spectrum of medical subjects, including diseases, drugs, and medical procedures. The dataset features additional annotations provided in XML files, facilitating various Information Retrieval (IR) and Natural Language Processing (NLP) tasks. These annotations encompass crucial information such as question type, question focus, synonyms, Unique Identifier (CUI) from the Unified Medical Language System (UMLS), and Semantic Type. Moreover, the dataset includes categorization of question focuses into three main categories: Disease, Drug, or Other, with the exception of collections from MedlinePlus, which exclusively focus on diseases.
 
-For our experiments there are 8 different versions of the datasets, available as Hugging Face datasets:
-- gemma_medical_meadow_wikidoc_instruct_dataset -> Medical Meadow Wikidoc dataset for Gemma Instruct (https://huggingface.co/datasets/Shekswess/gemma_medical_meadow_wikidoc_instruct_dataset
-- mistral_llama_medical_meadow_wikidoc_instruct_dataset -> Medical Meadow Wikidoc dataset for Mistral and Llama Instruct (https://huggingface.co/datasets/Shekswess/mistral_llama_medical_meadow_wikidoc_instruct_dataset
-- gemma_medquad_instruct_dataset -> Medquad dataset for Gemma Instruct (https://huggingface.co/datasets/Shekswess/gemma_medquad_instruct_dataset)
-- mistral_llama_medquad_instruct_dataset -> Medquad dataset for Mistral and Llama Instruct (https://huggingface.co/datasets/Shekswess/mistral_llama_medquad_instruct_dataset)
-- medical_gemma_instruct_dataset -> combination of both Medical Meadow Wikidoc and Medquad dataset for Gemma Instruct (https://huggingface.co/datasets/Shekswess/medical_gemma_instruct_dataset)
-- medical_mistral_llama_instruct_dataset -> combination of both Medical Meadow Wikidoc and Medquad dataset for Mistral and Llama Instruct (https://huggingface.co/datasets/Shekswess/medical_mistral_llama_instruct_dataset)
-- medical_gemma_instruct_dataset_short -> combination of both Medical Meadow Wikidoc and Medquad dataset for Gemma Instruct, but with a smaller dataset size 3000 entries (https://huggingface.co/datasets/Shekswess/medical_gemma_instruct_dataset_short)
-- medical_mistral_llama_instruct_dataset_short -> combination of both Medical Meadow Wikidoc and Medquad dataset for Mistral and Llama Instruct, but with a smaller dataset size 3000 entries (https://huggingface.co/datasets/Shekswess/medical_mistral_llama_instruct_dataset_short) 
+For our experiments there are 12 different versions of the datasets, available as Hugging Face datasets:
+- medical_gemma_instruct_dataset (https://huggingface.co/datasets/Shekswess/medical_gemma_instruct_dataset)
+- medical_gemma_instruct_dataset_short (https://huggingface.co/datasets/Shekswess/medical_gemma_instruct_dataset_short)
+- medical_llama_instruct_dataset (https://huggingface.co/datasets/Shekswess/medical_llama_instruct_dataset)
+- medical_llama_instruct_dataset_short (https://huggingface.co/datasets/Shekswess/medical_llama_instruct_dataset_short)
+- medical_mistral_instruct_dataset (https://huggingface.co/datasets/Shekswess/medical_mistral_instruct_dataset)
+- medical_mistral_instruct_dataset_short (https://huggingface.co/datasets/Shekswess/medical_mistral_instruct_dataset_short)
+- gemma_medquad_instruct_dataset (https://huggingface.co/datasets/Shekswess/gemma_medquad_instruct_dataset)
+- llama_medquad_instruct_dataset (https://huggingface.co/datasets/Shekswess/llama_medquad_instruct_dataset)
+- mistral_medquad_instruct_dataset (https://huggingface.co/datasets/Shekswess/mistral_medquad_instruct_dataset)
+- gemma_medical_meadow_wikidoc_instruct_dataset (https://huggingface.co/datasets/Shekswess/gemma_medical_meadow_wikidoc_instruct_dataset)
+- llama_medical_meadow_wikidoc_instruct_dataset (https://huggingface.co/datasets/Shekswess/llama_medical_meadow_wikidoc_instruct_dataset)
+- mistral_medical_meadow_wikidoc_instruct_dataset (https://huggingface.co/datasets/Shekswess/mistral_medical_meadow_wikidoc_instruct_dataset)
 
 
 ## Fine-tuning the LLMs
@@ -40,9 +44,10 @@ For the fine-tuning, the following models are used:
 Much more details about the fine-tuning process can be found in the notebooks in the `src/finetuning_notebooks` folder.
 
 Models trained using this codebase are available on Hugging Face:
-- Gemma: Shekswess/gemma-7b-it-bnb-4bit-medical(https://huggingface.co/Shekswess/gemma-7b-it-bnb-4bit-medical)
+- Gemma: Shekswess/gemma-1.1-7b-it-bnb-4bit-medical(https://huggingface.co/Shekswess/gemma-1.1-7b-it-bnb-4bit-medical)
 - Llama: Shekswess/llama-2-7b-chat-bnb-4bit-medical(https://huggingface.co/Shekswess/llama-2-7b-chat-bnb-4bit-medical)
-- Mistral: Shekswess/mistral-7b-instruct-v02-bnb-4bit-medical(https://huggingface.co/Shekswess/mistral-7b-instruct-v02-bnb-4bit-medical)
+- Mistral: Shekswess/mistral-7b-instruct-v0.2-bnb-4bit-medical(https://huggingface.co/Shekswess/mistral-7b-instruct-v0.2-bnb-4bit-medical)
+
 DISCLAIMER: The models are trained on a small dataset (only 3000 entries).
 
 ## Repository structure

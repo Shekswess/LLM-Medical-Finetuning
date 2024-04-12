@@ -74,7 +74,7 @@ class InstructDataset(ABC):
         return self.dataset
 
 
-class MistralLlamaInstructDataset(InstructDataset):
+class MistralInstructDataset(InstructDataset):
 
     def create_prompt(self):
         """
@@ -83,6 +83,19 @@ class MistralLlamaInstructDataset(InstructDataset):
         prompts = []
         for index, row in self.dataset.iterrows():
             prompt = f"""<s>[INST] {row['instruction']} This is the question: {row['input']} [/INST] \\n {row['output']}</s>"""
+            prompts.append(prompt)
+        self.dataset["prompt"] = prompts
+
+
+class LlamaInstructDataset(InstructDataset):
+
+    def create_prompt(self):
+        """
+        Create the prompt column in the dataset which will be used for
+        """
+        prompts = []
+        for index, row in self.dataset.iterrows():
+            prompt = f"""[s][INST] {row['instruction']} This is the question: {row['input']} [/INST] \\n {row['output']}[/s]"""
             prompts.append(prompt)
         self.dataset["prompt"] = prompts
 

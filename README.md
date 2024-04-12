@@ -1,6 +1,6 @@
 # LLM-7B-Medical-Finetuning
 
-This repository contains all the code necessary to fine-tune(PEFT using LoRA/QLoRa) the most popular 7B parameters instruct LLMs(Mistral, Llama, Gemma), specifically on medical data by utilizing. The code repository is based on two parts:
+This repository contains all the code necessary to finetune(PEFT using LoRA/QLoRa) the most popular 7B parameters instruct LLMs(Mistral, Llama, Gemma), specifically on medical data by utilizing. The code repository is based on two parts:
 - preparing the instruct medical datasets
 - fine-tuning the instruct LLMs on the prepared datasets
 
@@ -35,11 +35,11 @@ For our experiments there are 12 different versions of the datasets, available a
 
 ## Fine-tuning the LLMs
 
-The fine-tuning of the LLMs is based around PEFT(Parameter Efficient Fine-Tuning - Supervised Tuning) using LoRA/QLoRA. Because the resources on Google Colab are limited(T4 GPU), sparing resources is crucial. That's why 4 bit quantization models are used, which are available on Hugging Face by using the models available by unsloth(https://github.com/unslothai/unsloth). Also most of the code is based on the library provided by unsloth.
-For the fine-tuning, the following models are used:
-- gemma-7b-it-bnb-4bit
-- unsloth/llama-2-7b-chat-bnb-4bit
-- mistral-7b-instruct-v02-bnb-4bit
+The fine-tuning of the LLMs is based around PEFT(Parameter Efficient FineTuning - Supervised Tuning) using LoRA/QLoRA. Because the resources on Google Colab are limited(T4 GPU), sparing resources is crucial. That's why 4 bit quantization models are used, which are available on Hugging Face by using the models available by unsloth(https://github.com/unslothai/unsloth). Also most of the code is based on the library provided by unsloth.
+For the finetuning, the following models are used:
+- gemma-1.1-7b-it-bnb-4bit
+- llama-2-7b-chat-bnb-4bit
+- mistral-7b-instruct-v0.2-bnb-4bit
 
 Much more details about the fine-tuning process can be found in the notebooks in the `src/finetuning_notebooks` folder.
 
@@ -72,7 +72,7 @@ DISCLAIMER: The models are trained on a small dataset (only 3000 entries).
 │   │   ├── instruct_datasets.py                            # Defining the processing of the datasets to be in the instruct format
 │   │   └── requirements.txt                                # Requirements for the data processing scripts
 │   └── finetuning_notebooks                                # Notebooks for the fine-tuning of the LLMs
-│       ├── gemma_7b_it_medical.ipynb                       # Notebook for the fine-tuning of the Gemma LLM
+│       ├── gemma_1_1_7b_it_medical.ipynb                   # Notebook for the fine-tuning of the Gemma LLM
 │       ├── llama_2_7b_chat_medical.ipynb                   # Notebook for the fine-tuning of the Llama LLM
 │       └── mistral_7b_instruct_v02_medical.ipynb           # Notebook for the fine-tuning of the Mistral LLM
 ├── .gitignore                                              # Git ignore file

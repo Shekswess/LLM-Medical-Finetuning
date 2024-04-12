@@ -128,9 +128,7 @@ if __name__ == "__main__":
     gemma_dataset_short = create_dataset_hf(gemma_dataset_short, 3000, True)
 
     mistral_dataset_short.save_to_disk(
-        os.path.join(
-            processed_data_path, "medical_mistral_llama_instruct_dataset_short"
-        )
+        os.path.join(processed_data_path, "medical_mistral_instruct_dataset_short")
     )
     llama_dataset_short.save_to_disk(
         os.path.join(processed_data_path, "medical_llama_instruct_dataset_short")

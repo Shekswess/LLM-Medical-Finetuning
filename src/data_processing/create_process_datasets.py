@@ -116,15 +116,15 @@ if __name__ == "__main__":
     gemma_dataset_short = pd.concat(gemma_datasets, ignore_index=True)
 
     mistral_dataset_short = pd.concat(
-        [mistral_dataset_short.iloc[:1500], mistral_dataset_short.iloc[-1500:]],
+        [mistral_dataset_short.iloc[:1000], mistral_dataset_short.iloc[-5000:-4000]],
         ignore_index=True,
     )
     llama_dataset_short = pd.concat(
-        [llama_dataset_short.iloc[:1500], llama_dataset_short.iloc[-1500:]],
+        [llama_dataset_short.iloc[:1000], llama_dataset_short.iloc[-5000:-4000]],
         ignore_index=True,
     )
     gemma_dataset_short = pd.concat(
-        [gemma_dataset_short.iloc[:1500], gemma_dataset_short.iloc[-1500:]],
+        [gemma_dataset_short.iloc[:1000], gemma_dataset_short.iloc[-5000:-4000]],
         ignore_index=True,
     )
 

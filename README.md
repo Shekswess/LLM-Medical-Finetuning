@@ -2,7 +2,7 @@
 
 This repository contains all the code necessary to finetune(PEFT using LoRA/QLoRa) the most popular 7B parameters instruct LLMs(Mistral, Llama, Gemma), specifically on medical data by utilizing. The code repository is based on two parts:
 - preparing the instruct medical datasets
-- fine-tuning the instruct LLMs on the prepared datasets
+- finetuning the instruct LLMs on the prepared datasets
 
 ## Preparing the datasets
 
@@ -33,7 +33,7 @@ For our experiments there are 12 different versions of the datasets, available a
 - mistral_medical_meadow_wikidoc_instruct_dataset (https://huggingface.co/datasets/Shekswess/mistral_medical_meadow_wikidoc_instruct_dataset)
 
 
-## Fine-tuning the LLMs
+## Finetuning the LLMs
 
 The fine-tuning of the LLMs is based around PEFT(Parameter Efficient FineTuning - Supervised Tuning) using LoRA/QLoRA. Because the resources on Google Colab are limited(T4 GPU), sparing resources is crucial. That's why 4 bit quantization models are used, which are available on Hugging Face by using the models available by unsloth(https://github.com/unslothai/unsloth). Also most of the code is based on the library provided by unsloth.
 For the finetuning, the following models are used:
@@ -48,13 +48,27 @@ Models trained using this codebase are available on Hugging Face:
 - Llama: Shekswess/llama-2-7b-chat-bnb-4bit-medical(https://huggingface.co/Shekswess/llama-2-7b-chat-bnb-4bit-medical)
 - Mistral: Shekswess/mistral-7b-instruct-v0.2-bnb-4bit-medical(https://huggingface.co/Shekswess/mistral-7b-instruct-v0.2-bnb-4bit-medical)
 
-DISCLAIMER: The models are trained on a small dataset (only 3000 entries).
+### Training Loss on all models
+![Training Loss](./artifacts/all_models.png)
+
+DISCLAIMER: The models are trained on a small dataset (only 2000 entries).
 
 ## Repository structure
 ```
 .
 ├── .vscode                                                 # VSCode settings
 │   └── settings.json                                       # Settings for the formatting of the code
+├── artifacts                                               # Artifacts generated during the training of the models
+│   ├── all_models.png                                      # Training loss of all models
+│   ├── gemma_loss.csv                                      # Training loss of the Gemma model per step
+│   ├── gemma_loss.png                                      # Training loss of the Gemma model
+│   ├── llama_loss.csv                                      # Training loss of the Llama model per step
+│   ├── llama_loss.png                                      # Training loss of the Llama model
+│   ├── mistral_loss.csv                                    # Training loss of the Mistral model per step
+│   ├── mistral_loss.png                                    # Training loss of the Mistral model
+│   ├── trainer_stats_gemma.json                            # Trainer stats of the Gemma model
+│   ├── trainer_stats_llama.json                            # Trainer stats of the Llama model
+│   └── trainer_stats_mistral.json                          # Trainer stats of the Mistral model
 ├── data                                                    # Datasets used in the project
 │   ├── processed_datasets                                  # Processed datasets
 │   │   ├── medical_gemma_instruct_dataset                  # Processed dataset for the Gemma

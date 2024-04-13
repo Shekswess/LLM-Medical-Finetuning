@@ -51,21 +51,13 @@ def process_dataset(dataset_path: str, model: str) -> pd.DataFrame:
 
 
 def create_dataset_hf(
-    dataset: pd.DataFrame, number_rows: int = None, shuffle: bool = False
+    dataset: pd.DataFrame,
 ) -> DatasetDict:
     """
     Create a Hugging Face dataset from the pandas dataframe.
     :param dataset: The pandas dataframe.
-    :param number_rows: The number of rows to sample.
-    :param shuffle: Whether to shuffle the dataset.
     :return: The Hugging Face dataset.
     """
-    if shuffle:
-        logger.info("Shuffling dataset!")
-        dataset = dataset.sample(frac=1).reset_index(drop=True)
-    if number_rows:
-        logger.info(f"Sampling {number_rows} rows!")
-        dataset = dataset.iloc[:number_rows]
     dataset.reset_index(drop=True, inplace=True)
     return DatasetDict({"train": Dataset.from_pandas(dataset)})
 
@@ -123,9 +115,22 @@ if __name__ == "__main__":
     llama_dataset_short = pd.concat(llama_datasets, ignore_index=True)
     gemma_dataset_short = pd.concat(gemma_datasets, ignore_index=True)
 
-    mistral_dataset_short = create_dataset_hf(mistral_dataset_short, 3000, True)
-    llama_dataset_short = create_dataset_hf(llama_dataset_short, 3000, True)
-    gemma_dataset_short = create_dataset_hf(gemma_dataset_short, 3000, True)
+    mistral_dataset_short = pd.concat(
+        [mistral_dataset_short.iloc[:1000], mistral_dataset_short.iloc[-5000:-4000]],
+        ignore_index=True,
+    )
+    llama_dataset_short = pd.concat(
+        [llama_dataset_short.iloc[:1000], llama_dataset_short.iloc[-5000:-4000]],
+        ignore_index=True,
+    )
+    gemma_dataset_short = pd.concat(
+        [gemma_dataset_short.iloc[:1000], gemma_dataset_short.iloc[-5000:-4000]],
+        ignore_index=True,
+    )
+
+    mistral_dataset_short = create_dataset_hf(mistral_dataset_short)
+    llama_dataset_short = create_dataset_hf(llama_dataset_short)
+    gemma_dataset_short = create_dataset_hf(gemma_dataset_short)
 
     mistral_dataset_short.save_to_disk(
         os.path.join(processed_data_path, "medical_mistral_instruct_dataset_short")

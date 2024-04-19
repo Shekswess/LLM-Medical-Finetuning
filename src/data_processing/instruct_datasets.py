@@ -99,6 +99,18 @@ class LlamaInstructDataset(InstructDataset):
             prompts.append(prompt)
         self.dataset["prompt"] = prompts
 
+class Llama3InstructDataset(InstructDataset):
+
+    def create_prompt(self):
+        """
+        Create the prompt column in the dataset which will be used for
+        """
+        prompts = []
+        for index, row in self.dataset.iterrows():
+            prompt = f"""<|start_header_id|>system<|end_header_id|> {row['instruction']}<|eot_id|><|start_header_id|>user<|end_header_id|> This is the question: {row['input']}<|eot_id|><|start_header_id|>assistant<|end_header_id|> {row['output']}<|eot_id|>"""
+            prompts.append(prompt)
+        self.dataset["prompt"] = prompts
+
 
 class GemmaInstructDataset(InstructDataset):
 

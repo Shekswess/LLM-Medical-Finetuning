@@ -1,6 +1,6 @@
-# LLM-7B-Medical-Finetuning
+# LLM-Medical-Finetuning
 
-This repository contains all the code necessary to finetune(PEFT using LoRA/QLoRa) the most popular 7B parameters instruct LLMs(Mistral, Llama, Gemma), specifically on medical data by utilizing. The code repository is based on two parts:
+This repository contains all the code necessary to finetune(PEFT using LoRA/QLoRa) the most popular 7B/8B parameters instruct/chat LLMs(Mistral, Llama2, Llama3, Gemma), specifically on medical data by utilizing. The code repository is based on two parts:
 - preparing the instruct medical datasets
 - finetuning the instruct LLMs on the prepared datasets
 
@@ -21,15 +21,19 @@ MedQuAD is a comprehensive collection consisting of 47,457 medical question-answ
 For our experiments there are 12 different versions of the datasets, available as Hugging Face datasets:
 - medical_gemma_instruct_dataset (https://huggingface.co/datasets/Shekswess/medical_gemma_instruct_dataset)
 - medical_gemma_instruct_dataset_short (https://huggingface.co/datasets/Shekswess/medical_gemma_instruct_dataset_short)
-- medical_llama_instruct_dataset (https://huggingface.co/datasets/Shekswess/medical_llama_instruct_dataset)
-- medical_llama_instruct_dataset_short (https://huggingface.co/datasets/Shekswess/medical_llama_instruct_dataset_short)
+- medical_llama2_instruct_dataset (https://huggingface.co/datasets/Shekswess/medical_llama2_instruct_dataset)
+- medical_llama2_instruct_dataset_short (https://huggingface.co/datasets/Shekswess/medical_llama2_instruct_dataset_short)
+- medical_llama3_instruct_dataset (https://huggingface.co/datasets/Shekswess/medical_llama3_instruct_dataset)
+- medical_llama3_instruct_dataset_short (https://huggingface.co/datasets/Shekswess/medical_llama3_instruct_dataset_short)
 - medical_mistral_instruct_dataset (https://huggingface.co/datasets/Shekswess/medical_mistral_instruct_dataset)
 - medical_mistral_instruct_dataset_short (https://huggingface.co/datasets/Shekswess/medical_mistral_instruct_dataset_short)
 - gemma_medquad_instruct_dataset (https://huggingface.co/datasets/Shekswess/gemma_medquad_instruct_dataset)
-- llama_medquad_instruct_dataset (https://huggingface.co/datasets/Shekswess/llama_medquad_instruct_dataset)
+- llama2_medquad_instruct_dataset (https://huggingface.co/datasets/Shekswess/llama2_medquad_instruct_dataset)
+- llama3_medquad_instruct_dataset (https://huggingface.co/datasets/Shekswess/llama3_medquad_instruct_dataset)
 - mistral_medquad_instruct_dataset (https://huggingface.co/datasets/Shekswess/mistral_medquad_instruct_dataset)
 - gemma_medical_meadow_wikidoc_instruct_dataset (https://huggingface.co/datasets/Shekswess/gemma_medical_meadow_wikidoc_instruct_dataset)
-- llama_medical_meadow_wikidoc_instruct_dataset (https://huggingface.co/datasets/Shekswess/llama_medical_meadow_wikidoc_instruct_dataset)
+- llama2_medical_meadow_wikidoc_instruct_dataset (https://huggingface.co/datasets/Shekswess/llama2_medical_meadow_wikidoc_instruct_dataset)
+- llama3_medical_meadow_wikidoc_instruct_dataset (https://huggingface.co/datasets/Shekswess/llama3_medical_meadow_wikidoc_instruct_dataset)
 - mistral_medical_meadow_wikidoc_instruct_dataset (https://huggingface.co/datasets/Shekswess/mistral_medical_meadow_wikidoc_instruct_dataset)
 
 
@@ -39,6 +43,7 @@ The fine-tuning of the LLMs is based around PEFT(Parameter Efficient FineTuning 
 For the finetuning, the following models are used:
 - gemma-1.1-7b-it-bnb-4bit
 - llama-2-7b-chat-bnb-4bit
+- llama-3-8b-Instruct-bnb-4bit
 - mistral-7b-instruct-v0.2-bnb-4bit
 
 Much more details about the fine-tuning process can be found in the notebooks in the `src/finetuning_notebooks` folder.
@@ -46,6 +51,7 @@ Much more details about the fine-tuning process can be found in the notebooks in
 Models trained using this codebase are available on Hugging Face:
 - Gemma: Shekswess/gemma-1.1-7b-it-bnb-4bit-medical(https://huggingface.co/Shekswess/gemma-1.1-7b-it-bnb-4bit-medical)
 - Llama: Shekswess/llama-2-7b-chat-bnb-4bit-medical(https://huggingface.co/Shekswess/llama-2-7b-chat-bnb-4bit-medical)
+- Llama: Shekswess/llama-3-8b-Instruct-bnb-4bit-medical(https://huggingface.co/Shekswess/llama-3-8b-Instruct-bnb-4bit-medical)
 - Mistral: Shekswess/mistral-7b-instruct-v0.2-bnb-4bit-medical(https://huggingface.co/Shekswess/mistral-7b-instruct-v0.2-bnb-4bit-medical)
 
 ### Training Loss on all models
@@ -62,19 +68,24 @@ DISCLAIMER: The models are trained on a small dataset (only 2000 entries).
 │   ├── all_models.png                                      # Training loss of all models
 │   ├── gemma_loss.csv                                      # Training loss of the Gemma model per step
 │   ├── gemma_loss.png                                      # Training loss of the Gemma model
-│   ├── llama_loss.csv                                      # Training loss of the Llama model per step
-│   ├── llama_loss.png                                      # Training loss of the Llama model
+│   ├── llama2_loss.csv                                     # Training loss of the Llama model per step
+│   ├── llama2_loss.png                                     # Training loss of the Llama model
+│   ├── llama3_loss.csv                                     # Training loss of the Llama model per step
+│   ├── llama3_loss.png                                     # Training loss of the Llama model
 │   ├── mistral_loss.csv                                    # Training loss of the Mistral model per step
 │   ├── mistral_loss.png                                    # Training loss of the Mistral model
 │   ├── trainer_stats_gemma.json                            # Trainer stats of the Gemma model
-│   ├── trainer_stats_llama.json                            # Trainer stats of the Llama model
+│   ├── trainer_stats_llama2.json                           # Trainer stats of the Llama model
+│   ├── trainer_stats_llama3.json                           # Trainer stats of the Llama model
 │   └── trainer_stats_mistral.json                          # Trainer stats of the Mistral model
 ├── data                                                    # Datasets used in the project
 │   ├── processed_datasets                                  # Processed datasets
 │   │   ├── medical_gemma_instruct_dataset                  # Processed dataset for the Gemma
 │   │   ├── medical_gemma_instruct_dataset_short            # Processed dataset for the Gemma with a smaller dataset size
-│   │   ├── medical_llama_instruct_dataset                  # Processed dataset for the Llama
-│   │   ├── medical_llama_instruct_dataset_short            # Processed dataset for the Llama with a smaller dataset size
+│   │   ├── medical_llama2_instruct_dataset                 # Processed dataset for the Llama2
+│   │   ├── medical_llama2_instruct_dataset_short           # Processed dataset for the Llama2 with a smaller dataset size
+│   │   ├── medical_llama3_instruct_dataset                 # Processed dataset for the Llama3
+│   │   ├── medical_llama3_instruct_dataset_short           # Processed dataset for the Llama3 with a smaller dataset size
 │   │   ├── medical_mistral_instruct_dataset                # Processed dataset for the Mistral
 │   │   └── medical_mistral_instruct_dataset_short          # Processed dataset for the Mistral with a smaller dataset size
 │   └── raw_data                                            # Raw datasets
@@ -87,7 +98,8 @@ DISCLAIMER: The models are trained on a small dataset (only 2000 entries).
 │   │   └── requirements.txt                                # Requirements for the data processing scripts
 │   └── finetuning_notebooks                                # Notebooks for the fine-tuning of the LLMs
 │       ├── gemma_1_1_7b_it_medical.ipynb                   # Notebook for the fine-tuning of the Gemma LLM
-│       ├── llama_2_7b_chat_medical.ipynb                   # Notebook for the fine-tuning of the Llama LLM
+│       ├── llama_2_7b_chat_medical.ipynb                   # Notebook for the fine-tuning of the Llama2 LLM
+│       ├── llama_3_8b_instruct_medical.ipynb               # Notebook for the fine-tuning of the Llama3 LLM
 │       └── mistral_7b_instruct_v02_medical.ipynb           # Notebook for the fine-tuning of the Mistral LLM
 ├── .gitignore                                              # Git ignore file
 └── README.md                                               # README file (this file)
